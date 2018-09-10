@@ -1,80 +1,3 @@
-///* global window*/
-//
-//var appProduit = (function appProduit() {
-//    "use strict";
-//    var domList;
-//
-//    var doAjax = function doAjax(url, method, callback, data) {
-//        try {
-//            const xhr = new XMLHttpRequest();
-//            xhr.open(method, url);
-//            xhr.setRequestHeader('Content-Type', 'application/json');
-//            data = data ? JSON.stringify(data) : null;
-//            if (method.toLowerCase() === "post") {
-//                if (!data) throw new Error("bad call");
-//            }
-//            //ON ATTEND LE RETOUR DE L'APPEL AJAX
-//            xhr.onload = evt => callback(evt.target.response || evt.srcElement.response);
-//
-//            xhr.send(data || null);
-//        } catch (err) {
-//            console.error(err);
-//        }
-//    };
-//
-//
-//
-//    const createProduit = function createProduit(e) {
-//        e.preventDefault();
-//        const url = "http://localhost:9393/api/v1/produit";
-//        doAjax(url, "POST", function getRes(res) {
-//            console.log("RES CREATE");
-//            console.log(res);
-//            console.log(JSON.parse(res));
-//        }, {
-//            nom: "name",
-//            prix: "price",
-//            description: "descri"
-//        });
-//        //        getProduits();
-//    };
-//
-//
-//    var getProduits = function getProduits() {
-//        const url = "http://localhost:9393/api/v1/produit";
-//        doAjax(url, "GET", function getRes(res) {
-//            console.log(JSON.parse(res));
-//            displayProduits(JSON.parse(res));
-//        });
-//    };
-//
-//    var displayProduits = function displayProduits(produitList) {
-//        domList.innerHTML = ""; box
-//        if (produitList) {
-//            produitList.forEach(produit => {
-//                let tr = document.createElement("tr");
-//                tr.className = "itemproduit";
-//                tr.innerHTML += `<td><input type = 'checkbox' class='checkbox'> </td><td>${produit.id}</td><td>${produit.id_marque}</td><td>${produit.nom}</td><td>${produit.prix}</td><td>${produit.description}</td><td><button class = "buttonModif"> Modifier </update></td>`;
-//                domList.appendChild(tr);
-//            });
-//        } else {
-//            let tr = document.createElement("tr");
-//            tr.innerHTML = `<td colspan = "4">Désolé, le liens avec la base de donnée n'existe pas.</td>`;
-//            domList.appendChild(tr);
-//        }
-//    };
-//
-//
-//    var start = function () {
-//        window.document.getElementById("btn_get_produit").onclick = getProduits;
-//        window.document.getElementById("btn_new_produit").onclick = createProduit;
-//        domList = document.getElementById("list_produit");
-//    };
-//    window.addEventListener("DOMContentLoaded", start);
-//}());
-
-
-
 /* jshint esversion : 6 */
 const appClient = (function appClient() {
     "use strict";
@@ -88,6 +11,7 @@ const appClient = (function appClient() {
         // PREPARATION DU FORMULAIRE EN MODE EDIT
         // on récupère un objet produit pour pré remplir les champs du formulaire d'édition
         dom.hiddenId.value = produit.id;
+        dom.id_marque.value = prodduit.id_marque;
         dom.nom.value = produit.nom;
         dom.prix.value = produit.prix;
         dom.description.value = produit.description;
@@ -100,14 +24,14 @@ const appClient = (function appClient() {
         }, getFormValues()); // récupérer les valeurs actuelles du form
     };
 
-//    const deleteProduit = function deleteProduit() {
-        //        doAjax(url + "/api/v1/produit", "DELETE", res => {
-        //            // RETOUR DE L APPEL AJAX
-        //            getProduits();
-        //        }, {
-        //            ids: produitsToDelete
-        //        });
-        //    };
+    //    const deleteProduit = function deleteProduit() {
+    //        doAjax(url + "/api/v1/produit", "DELETE", res => {
+    //            // RETOUR DE L APPEL AJAX
+    //            getProduits();
+    //        }, {
+    //            ids: produitsToDelete
+    //        });
+    //    };
 
     const displayProduit = function displayProduit(produitList) {
         dom.tab.innerHTML = ""; // on initialise le tableau de produit (tbody HTML vide)
@@ -189,6 +113,7 @@ const appClient = (function appClient() {
         // ex: name = 123445637389 OU email === "", etc.
         return {
             id: dom.hiddenId.value,
+            id_marque: dom.id_marque,
             nom: dom.nom.value,
             description: dom.description.value
         };
@@ -238,6 +163,13 @@ const appClient = (function appClient() {
         dom.nom = document.getElementById("produit_nom");
         dom.prix = document.getElementById("produit_prix");
         dom.description = document.getElementById("produit_description");
+        var id_marque = document.getElementById("choisir_marque").value;
+        if (id_marque == ford) {
+            dom.id_marque = 1;
+        } else {
+            dom.id_marque = 99;
+        }
+
 
         // BUTTONS
         dom.btnNewProduit = document.getElementById("btn_new_produit");
